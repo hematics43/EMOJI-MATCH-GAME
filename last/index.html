@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Shreyansh's 1st Birthday Invitation</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&display=swap');
+
+  body {
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+    font-family: 'Comic Neue', cursive, sans-serif;
+    color: #4b2e83;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+
+  .container {
+    background: white;
+    max-width: 450px;
+    border-radius: 25px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    padding: 30px 25px;
+    text-align: center;
+    position: relative;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+
+  .photo-wrapper {
+    position: relative;
+    width: 180px;
+    height: 180px;
+    margin: 0 auto 25px auto;
+  }
+
+  .photo {
+    width: 180px;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 4px solid #f76c6c;
+    box-shadow: 0 4px 15px rgba(247,108,108,0.6);
+    background-color: #fceaea;
+    display: block;
+  }
+
+  /* Spark animation */
+  .spark {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: radial-gradient(circle at center, #fff9c4 60%, #f76c6c 100%);
+    border-radius: 50%;
+    opacity: 0;
+    filter: drop-shadow(0 0 3px #f76c6c);
+    animation: sparkle 1.8s infinite ease-in-out;
+  }
+
+  @keyframes sparkle {
+    0%, 100% {
+      opacity: 0;
+      transform: scale(0.7) rotate(0deg);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1.2) rotate(15deg);
+    }
+  }
+
+  /* Position each spark around the photo with different delays */
+  .spark1 {
+    top: 10%;
+    left: 15%;
+    animation-delay: 0s;
+  }
+  .spark2 {
+    top: 20%;
+    right: 18%;
+    animation-delay: 0.5s;
+  }
+  .spark3 {
+    bottom: 25%;
+    left: 25%;
+    animation-delay: 1s;
+  }
+  .spark4 {
+    bottom: 15%;
+    right: 20%;
+    animation-delay: 1.3s;
+  }
+  .spark5 {
+    top: 50%;
+    left: 5%;
+    animation-delay: 1.6s;
+  }
+
+  h1 {
+    font-size: 2.8rem;
+    margin-bottom: 0.2em;
+    color: #e94e77;
+  }
+
+  .subtitle {
+    font-size: 1.5rem;
+    margin-bottom: 1em;
+    color: #fa8b5e;
+  }
+
+  .highlight {
+    font-weight: 700;
+    color: #f76c6c;
+  }
+
+  p {
+    font-size: 1.2rem;
+    margin: 10px 0;
+  }
+
+  .date, .time, .venue {
+    background: #fef3f3;
+    border-radius: 12px;
+    padding: 10px 15px;
+    margin: 12px auto;
+    width: fit-content;
+    font-weight: 600;
+    box-shadow: 0 3px 7px rgba(247,108,108,0.4);
+  }
+
+  .footer {
+    margin-top: 25px;
+    font-size: 1.1rem;
+    color: #aa6f73;
+  }
+
+  .balloons {
+    font-size: 2.5rem;
+    margin: 15px 0 25px;
+  }
+
+  .confetti {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background-color: #f76c6c;
+    top: -10px;
+    animation: confetti-fall linear infinite;
+    opacity: 0.8;
+    border-radius: 3px;
+  }
+
+  .confetti:nth-child(1) {
+    left: 20%;
+    animation-duration: 5s;
+    animation-delay: 0s;
+  }
+  .confetti:nth-child(2) {
+    left: 40%;
+    animation-duration: 6s;
+    animation-delay: 1s;
+  }
+  .confetti:nth-child(3) {
+    left: 60%;
+    animation-duration: 4.5s;
+    animation-delay: 0.5s;
+  }
+  .confetti:nth-child(4) {
+    left: 80%;
+    animation-duration: 5.5s;
+    animation-delay: 1.5s;
+  }
+  .confetti:nth-child(5) {
+    left: 50%;
+    animation-duration: 6.5s;
+    animation-delay: 0.2s;
+  }
+
+  @keyframes confetti-fall {
+    0% {transform: translateY(-100%) rotate(0deg);}
+    100% {transform: translateY(100vh) rotate(360deg);}
+  }
+
+  .slider-container {
+    margin-top: 30px;
+    width: 460px;
+    background: white;
+    border-radius: 15px;
+    padding: 15px 10px;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+  }
+
+  .slider-title {
+    font-weight: 700;
+    color: #f76c6c;
+    margin-bottom: 12px;
+    font-size: 1.3rem;
+  }
+
+  .photo-slider {
+    display: flex;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    gap: 10px;
+    padding-bottom: 5px;
+  }
+
+  .photo-slider::-webkit-scrollbar {
+    height: 8px;
+  }
+
+  .photo-slider::-webkit-scrollbar-thumb {
+    background-color: #f76c6c;
+    border-radius: 10px;
+  }
+
+  .photo-slider img {
+    flex: 0 0 auto;
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 15px;
+    box-shadow: 0 3px 8px rgba(247,108,108,0.4);
+    cursor: pointer;
+    transition: transform 0.3s ease;
+  }
+
+  .photo-slider img:hover {
+    transform: scale(1.1);
+  }
+
+  /* Popup overlay styles */
+  #popupOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0,0,0,0.8);
+    display: none; /* hidden by default */
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+  }
+
+  #popupOverlay.active {
+    display: flex;
+  }
+
+  #popupOverlay img {
+    max-width: 90vw;
+    max-height: 80vh;
+    border-radius: 15px;
+    box-shadow: 0 0 25px rgba(255,255,255,0.8);
+  }
+
+  #popupOverlay .close-btn {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    font-size: 2.5rem;
+    color: white;
+    cursor: pointer;
+    user-select: none;
+    font-weight: bold;
+    background: rgba(0,0,0,0.4);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    line-height: 38px;
+    text-align: center;
+  }
+  #popupOverlay .close-btn:hover {
+    background: rgba(255,255,255,0.3);
+    color: #f76c6c;
+  }
+
+  /* Animated link styles */
+  .animated-link {
+    cursor: pointer;
+    transition: color 0.3s ease;
+    color: #f76c6c;
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  .animated-link:hover {
+    color: #e94e77;
+  }
+
+  /* Fade-out animation for container */
+  .fade-out {
+    opacity: 0;
+    transform: scale(0.95);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+
+</style>
+</head>
+<body>
+  <div class="container">
+    <div class="balloons">🎉🎈🧸🎈🎉</div>
+    
+    <div class="photo-wrapper" aria-label="Photo of Shreyansh with sparkling animation">
+      <img src="arutop2.jpeg" alt="Shreyansh" class="photo" />
+      <div class="spark spark1" aria-hidden="true"></div>
+      <div class="spark spark2" aria-hidden="true"></div>
+      <div class="spark spark3" aria-hidden="true"></div>
+      <div class="spark spark4" aria-hidden="true"></div>
+      <div class="spark spark5" aria-hidden="true"></div>
+    </div>
+    
+    <h1>Shreyansh is Turning <span class="highlight">ONE!</span></h1>
+    <p class="subtitle">Come join us as we celebrate the</p>
+    <p class="highlight" style="font-size: 1.8rem;">1<sup>st</sup> Birthday</p>
+    <p>of our little champ,<br /><strong>Shreyansh! 🧸🎈</strong></p>
+    <div class="date">📅 Date: 18th July 2025</div>
+    <div class="time">🕕 Time: 6:00 PM onwards</div>
+    <div class="venue">📍 Venue: 286, Sudama Nagar, Indore - Near Gopur Square</div>
+    
+    <div class="venue">🙏Remitter🙏</br>Shobha Bhand & Komal Ganesh Bhand</br>Mob.: 8349224782</div>
+    <p class="footer">We can't wait to celebrate with you! 💛</p>
+    <P></P>I'm turning one! I'm going to party... 
+      then maybe even sleep!
+      Come eat cake, laugh a lot and have lots of fun!
+      Come for the cake, stay for the delicious food!</br>
+      ~Aru    </P>
+    <!-- RSVP link with animation -->
+    <p style="margin-top: 20px;">
+      <a href="https://maps.app.goo.gl/GEWE9cKcUuo4Jt2e9" class="animated-link" aria-label="RSVP for Shreyansh's birthday party">
+        CLICK FOR LOCATION
+      </a>
+    </p>
+
+    <!-- Confetti squares -->
+    <div class="confetti"></div>
+    <div class="confetti"></div>
+    <div class="confetti"></div>
+    <div class="confetti"></div>
+    <div class="confetti"></div>
+  </div>
+
+  <!-- Photo slider -->
+  <div class="slider-container" aria-label="Photo gallery of Shreyansh's birthday">
+    <div class="slider-title">Life Moments</div>
+    <div class="photo-slider" tabindex="0">
+      <img src="ARU01.JPG" alt="Shreyansh playing" />
+      <img src="ARU02.JPG" alt="Shreyansh with cake" />
+      <img src="ARU03.JPG" alt="Shreyansh with family" />
+      <img src="ARU04.JPG" alt="Birthday decorations" />
+      <img src="ARU05.JPG" alt="Candles on cake" />
+      <img src="ARU09.JPG" alt="Candles on cake" />
+    </div>
+  </div>
+
+  <!-- Popup Overlay -->
+  <div id="popupOverlay" role="dialog" aria-modal="true" aria-label="Image preview">
+    <span class="close-btn" aria-label="Close popup" role="button" tabindex="0">&times;</span>
+    <img src="" alt="Popup photo" />
+  </div>
+
+<script>
+  // Popup functionality for slider images
+  const sliderImages = document.querySelectorAll('.photo-slider img');
+  const popupOverlay = document.getElementById('popupOverlay');
+  const popupImage = popupOverlay.querySelector('img');
+  const closeBtn = popupOverlay.querySelector('.close-btn');
+
+  sliderImages.forEach(img => {
+    img.addEventListener('click', () => {
+      popupImage.src = img.src;
+      popupImage.alt = img.alt;
+      popupOverlay.classList.add('active');
+      document.body.style.overflow = 'hidden'; // prevent background scroll
+    });
+  });
+
+  closeBtn.addEventListener('click', () => {
+    popupOverlay.classList.remove('active');
+    document.body.style.overflow = '';
+  });
+
+  popupOverlay.addEventListener('click', (e) => {
+    if (e.target === popupOverlay || e.target === closeBtn) {
+      popupOverlay.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === "Escape" && popupOverlay.classList.contains('active')) {
+      popupOverlay.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+    // Allow close button focus and key activation
+    if (document.activeElement === closeBtn && (e.key === "Enter" || e.key === " ")) {
+      popupOverlay.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+  });
+</script>
+
+<footer style="text-align:center; font-size: 0.9rem; color: #888; margin-top: 30px; font-family: Arial, sans-serif;">
+  Developed by <a href="https://www.instagram.com/mathemantics43" target="_blank" rel="noopener" style="color:#f76c6c; text-decoration:none;"><b>Hemant Gavde</b></a>
+</footer>
+
+</body>
+</html>
