@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -23,21 +24,54 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      height: 100vh;
+      justify-content: flex-start;
+      padding: 30px 20px;
+      min-height: 100vh;
     }
 
     h1 {
       font-size: 2.5rem;
-      margin-bottom: 20px;
+      margin-bottom: 10px;
       color: #444;
+    }
+
+    #controls {
+      margin-bottom: 20px;
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+    }
+
+    select, button {
+      padding: 10px 18px;
+      font-size: 1rem;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+
+    select {
+      background: #fff;
+      border: 2px solid #ccc;
+    }
+
+    #restart-btn {
+      background: var(--primary-color);
+      color: white;
+    }
+
+    #restart-btn:hover {
+      background: #e5544e;
+      transform: scale(1.05);
     }
 
     #game-board {
       display: grid;
-      grid-template-columns: repeat(4, var(--card-size));
-      gap: 16px;
-      margin-bottom: 25px;
+      gap: 14px;
+      justify-content: center;
     }
 
     .card {
@@ -87,28 +121,9 @@
       font-size: 2.2rem;
     }
 
-    #restart-btn {
-      background: var(--primary-color);
-      color: white;
-      border: none;
-      padding: 12px 28px;
-      border-radius: 8px;
-      font-size: 1.1rem;
-      cursor: pointer;
-      transition: background 0.3s, transform 0.2s;
-    }
-
-    #restart-btn:hover {
-      background: #e5544e;
-      transform: scale(1.05);
-    }
-
-    @media (max-width: 500px) {
+    @media (max-width: 600px) {
       :root {
         --card-size: 70px;
-      }
-      #game-board {
-        gap: 10px;
       }
     }
   </style>
@@ -116,33 +131,56 @@
 <body>
 
   <h1>🧠 Emoji Match Game</h1>
+
+  <div id="controls">
+    <select id="difficulty">
+      <option value="easy">🟢 Easy (4×4)</option>
+      <option value="medium">🟡 Medium (5×4)</option>
+      <option value="hard">🔴 Hard (6×5)</option>
+    </select>
+    <button id="restart-btn">🔁 Restart Game</button>
+  </div>
+
   <div id="game-board"></div>
-  <button id="restart-btn">🔁 Restart Game</button>
 
   <script>
-    const emojis = ["🍕", "🐱", "⚽", "🎧", "🚗", "🎈", "🌟", "🍩"];
-    let flippedCards = [];
-    let matched = 0;
+    const emojiPool = [
+      "🍕", "🐱", "⚽", "🎧", "🚗", "🎈", "🌟", "🍩",
+      "🐶", "📱", "🏀", "🧸", "🍉", "🎮", "🌈",
+      "🚀", "🎂", "🍔", "💎", "🎤", "🥁", "🧠", "🦄", "💡", "📸", "✈️"
+    ];
+
+    const difficultySettings = {
+      easy: { cols: 4, rows: 4, pairs: 8 },
+      medium: { cols: 5, rows: 4, pairs: 10 },
+      hard: { cols: 6, rows: 5, pairs: 15 }
+    };
 
     const board = document.getElementById("game-board");
+    const restartBtn = document.getElementById("restart-btn");
+    const difficultySelect = document.getElementById("difficulty");
+
+    let flippedCards = [];
+    let matched = 0;
+    let currentSettings = difficultySettings["easy"];
 
     function shuffle(array) {
       return array.sort(() => Math.random() - 0.5);
     }
 
     function createCard(emoji) {
-      const card = document.createElement('div');
-      card.classList.add('card');
+      const card = document.createElement("div");
+      card.classList.add("card");
 
-      const cardInner = document.createElement('div');
-      cardInner.classList.add('card-inner');
+      const cardInner = document.createElement("div");
+      cardInner.classList.add("card-inner");
 
-      const front = document.createElement('div');
-      front.classList.add('card-front');
+      const front = document.createElement("div");
+      front.classList.add("card-front");
       front.textContent = "❓";
 
-      const back = document.createElement('div');
-      back.classList.add('card-back');
+      const back = document.createElement("div");
+      back.classList.add("card-back");
       back.textContent = emoji;
 
       cardInner.appendChild(front);
@@ -151,12 +189,11 @@
 
       card.addEventListener("click", () => {
         if (card.classList.contains("flipped") || flippedCards.length === 2) return;
-
         card.classList.add("flipped");
         flippedCards.push({ card, emoji });
 
         if (flippedCards.length === 2) {
-          setTimeout(checkMatch, 700);
+          setTimeout(checkMatch, 600);
         }
       });
 
@@ -167,8 +204,8 @@
       const [first, second] = flippedCards;
       if (first.emoji === second.emoji) {
         matched++;
-        if (matched === emojis.length) {
-          setTimeout(() => alert("🎉 You matched all pairs!"), 500);
+        if (matched === currentSettings.pairs) {
+          setTimeout(() => alert("🎉 You matched all pairs!"), 400);
         }
       } else {
         first.card.classList.remove("flipped");
@@ -178,15 +215,29 @@
     }
 
     function setupGame() {
-      board.innerHTML = '';
+      board.innerHTML = "";
       flippedCards = [];
       matched = 0;
 
-      const mixed = shuffle([...emojis, ...emojis]);
-      mixed.forEach(e => board.appendChild(createCard(e)));
+      const { cols, rows, pairs } = currentSettings;
+      board.style.gridTemplateColumns = `repeat(${cols}, var(--card-size))`;
+
+      const emojis = shuffle(emojiPool).slice(0, pairs);
+      const gameSet = shuffle([...emojis, ...emojis]);
+
+      gameSet.forEach(e => {
+        board.appendChild(createCard(e));
+      });
     }
 
-    document.getElementById("restart-btn").addEventListener("click", setupGame);
+    difficultySelect.addEventListener("change", () => {
+      currentSettings = difficultySettings[difficultySelect.value];
+      setupGame();
+    });
+
+    restartBtn.addEventListener("click", setupGame);
+
+    // Start game
     setupGame();
   </script>
 
