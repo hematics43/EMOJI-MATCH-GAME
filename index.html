@@ -5,6 +5,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Advanced Emoji Match Game</title>
   <style>
+    .glow-tile-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #00ccff;
+  color: #fff;
+  padding: 12px 18px;
+  border-radius: 30px;
+  font-weight: bold;
+  text-decoration: none;
+  box-shadow: 0 0 15px #00ccff, 0 0 30px #00ccff;
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+  z-index: 9999;
+}
+
+.glow-tile-button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px #00ccff, 0 0 40px #00ccff;
+}
+
     :root {
       --card-size: 90px;
       --primary-color: #ff6f61;
@@ -291,6 +311,9 @@
     // Initial Game Start
     setupGame();
   </script>
+<a href="https://hematics43.github.io/Glowing-Tile-Match-Game/" target="_blank" class="glow-tile-button">
+  🧩 Play Tile Match
+</a>
 
 </body>
 </html>
